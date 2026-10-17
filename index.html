@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maqashid Digital Lab | Etika Penulisan Akademik & Validator Referensi AI</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: {
+                            850: '#064e3b',
+                            900: '#022c22',
+                            950: '#011c16'
+                        },
+                        gold: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        arabic: ['"Amiri"', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .arabic-text {
+            font-family: 'Amiri', serif;
+            direction: rtl;
+        }
+        .pattern-bg {
+            background-color: #042f2e;
+            background-image: radial-gradient(#059669 0.75px, transparent 0.75px), radial-gradient(#059669 0.75px, #042f2e 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+        }
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #printable-certificate, #printable-certificate * {
+                visibility: visible;
+            }
+            #printable-certificate {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-600 selection:text-white">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-emerald-950 text-emerald-200 text-xs py-2 px-4 text-center border-b border-emerald-800/50 flex items-center justify-center gap-2">
+        <i data-lucide="shield-alert" class="w-4 h-4 text-gold-400 inline"></i>
+        <span>Prinsip Tabayyun & Riset Bertanggung Jawab: <em>"Hai orang-orang yang beriman, jika datang kepadamu orang fasik membawa suatu berita, maka periksalah dengan teliti (tabayyun)..."</em> (QS. Al-Hujurat: 6)</span>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo & Brand -->
+                <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('beranda')">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-700 to-emerald-900 flex items-center justify-center text-gold-400 shadow-md shadow-emerald-900/20 ring-1 ring-gold-500/30">
+                        <i data-lucide="scale" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xl font-bold tracking-tight text-emerald-950">Maqashid Digital Lab</span>
+                            <span class="bg-gold-500/10 text-gold-700 text-[10px] font-bold px-2 py-0.5 rounded-full border border-gold-500/30">AI ETHICS LAB</span>
+                        </div>
+                        <p class="text-xs text-slate-500 hidden sm:block">Laboratorium Etika Akademik & Validasi Integritas AI</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs (Desktop) -->
+                <nav class="hidden md:flex items-center gap-1 bg-slate-100 p-1.5 rounded-2xl border border-slate-200/80">
+                    <button onclick="switchTab('beranda')" id="nav-beranda" class="nav-btn px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all duration-200 text-emerald-900 bg-white shadow-sm">
+                        <i data-lucide="book-open" class="w-4 h-4"></i> Beranda
+                    </button>
+                    <button onclick="switchTab('validator')" id="nav-validator" class="nav-btn px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all duration-200 text-slate-600 hover:text-emerald-800">
+                        <i data-lucide="sparkles" class="w-4 h-4 text-gold-600"></i> Validator Referensi
+                    </button>
+                    <button onclick="switchTab('tes-etika')" id="nav-tes-etika" class="nav-btn px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all duration-200 text-slate-600 hover:text-emerald-800">
+                        <i data-lucide="check-square" class="w-4 h-4"></i> Tes Etika AI
+                    </button>
+                    <button onclick="switchTab('simulasi')" id="nav-simulasi" class="nav-btn px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all duration-200 text-slate-600 hover:text-emerald-800">
+                        <i data-lucide="git-branch" class="w-4 h-4"></i> Simulasi Kasus
+                    </button>
+                    <button onclick="switchTab('laporan')" id="nav-laporan" class="nav-btn px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2 transition-all duration-200 text-slate-600 hover:text-emerald-800">
+                        <i data-lucide="award" class="w-4 h-4"></i> Rapor & Sertifikat
+                    </button>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="p-2.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobileMenu" class="hidden md:hidden border-b border-slate-200 bg-white px-4 pt-2 pb-4 space-y-1">
+            <button onclick="switchTab('beranda'); toggleMobileMenu();" class="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium flex items-center gap-3 text-emerald-900 bg-emerald-50">
+                <i data-lucide="book-open" class="w-4 h-4"></i> Beranda
+            </button>
+            <button onclick="switchTab('validator'); toggleMobileMenu();" class="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium flex items-center gap-3 text-slate-700 hover:bg-slate-50">
+                <i data-lucide="sparkles" class="w-4 h-4 text-gold-600"></i> Validator Referensi AI
+            </button>
+            <button onclick="switchTab('tes-etika'); toggleMobileMenu();" class="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium flex items-center gap-3 text-slate-700 hover:bg-slate-50">
+                <i data-lucide="check-square" class="w-4 h-4"></i> Tes Etika AI
+            </button>
+            <button onclick="switchTab('simulasi'); toggleMobileMenu();" class="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium flex items-center gap-3 text-slate-700 hover:bg-slate-50">
+                <i data-lucide="git-branch" class="w-4 h-4"></i> Simulasi Kasus
+            </button>
+            <button onclick="switchTab('laporan'); toggleMobileMenu();" class="w-full text-left px-3 py-2.5 rounded-lg text-sm font-medium flex items-center gap-3 text-slate-700 hover:bg-slate-50">
+                <i data-lucide="award" class="w-4 h-4"></i> Rapor & Sertifikat
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow">
+        
+        <!-- ========================================== -->
+        <!-- TAB 1: BERANDA                             -->
+        <!-- ========================================== -->
+        <section id="view-beranda" class="tab-view block">
+            <!-- Hero Banner -->
+            <div class="pattern-bg text-white py-16 lg:py-24 relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-r from-emerald-950/95 via-emerald-900/90 to-teal-950/90"></div>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                        <div class="lg:col-span-7 space-y-6">
+                            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-800/80 border border-emerald-600/50 text-gold-300 text-xs font-semibold tracking-wide uppercase">
+                                <i data-lucide="feather" class="w-3.5 h-3.5"></i> Maqashid Digital Lab • Research Framework
+                            </div>
+                            <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight text-white">
+                                Etika Riset Ilmiah di Era AI: <br>
+                                <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold-400 to-amber-200">
+                                    Antara Efisiensi & Amanah Ilmiah
+                                </span>
+                            </h1>
+                            <p class="text-base sm:text-lg text-emerald-100/90 leading-relaxed font-light">
+                                Kecerdasan Buatan (LLM) sering memproduksi <em>hallucinated references</em> (referensi fiktif/palsu yang tampak nyata). Melalui <strong>Maqashid Digital Lab</strong>, tegakkan tradisi <strong>Tabayyun</strong> dan prinsip <strong>Maqāṣid al-Sharīʿah</strong> dalam menjaga kejujuran penulisan skripsi, tesis, dan artikel ilmiah Anda.
+                            </p>
+                            <div class="flex flex-wrap gap-4 pt-2">
+                                <button onclick="switchTab('validator')" class="px-6 py-3.5 rounded-xl bg-gold-500 hover:bg-gold-600 text-slate-950 font-bold text-sm shadow-lg shadow-gold-500/20 transition-all flex items-center gap-2">
+                                    <i data-lucide="search-check" class="w-4 h-4"></i> Cek Referensi AI Anda
+                                </button>
+                                <button onclick="switchTab('tes-etika')" class="px-6 py-3.5 rounded-xl bg-emerald-800/80 hover:bg-emerald-700/80 text-white font-semibold text-sm border border-emerald-600/60 transition-all flex items-center gap-2">
+                                    <i data-lucide="clipboard-check" class="w-4 h-4"></i> Ikuti Tes Etika
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Hero Interactive Card / Hadith Highlight -->
+                        <div class="lg:col-span-5">
+                            <div class="bg-gradient-to-b from-white/10 to-white/5 backdrop-blur-xl border border-white/15 p-7 rounded-3xl shadow-2xl relative overflow-hidden">
+                                <div class="absolute -top-10 -right-10 w-36 h-36 bg-gold-500/10 rounded-full blur-2xl"></div>
+                                <div class="flex items-center gap-3 border-b border-white/10 pb-4 mb-4">
+                                    <div class="p-2 rounded-xl bg-emerald-700 text-gold-400">
+                                        <i data-lucide="quote" class="w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <h2 class="text-sm font-bold text-white tracking-wide">Pondasi Nilai Keilmuan Islam</h2>
+                                        <p class="text-xs text-emerald-200">Sanad & Verifikasi Kebenaran Informasi</p>
+                                    </div>
+                                </div>
+                                <p class="arabic-text text-xl leading-loose text-amber-200 text-right mb-4">
+                                    إِنَّ الإِسْنَادَ مِنَ الدِّينِ، وَلَوْلاَ الإِسْنَادُ لَقَالَ مَنْ شَاءَ مَا شَاءَ
+                                </p>
+                                <blockquote class="text-xs text-slate-200 italic leading-relaxed border-l-2 border-gold-500 pl-3 mb-4">
+                                    "Sanad (penyandaran sumber) adalah bagian dari agama. Jika bukan karena sanad, niscaya siapa pun bebas mengatakan apa yang ia kehendaki tanpa pembuktian."
+                                    <span class="block text-right text-gold-300 not-italic font-semibold mt-1">— Abdullah bin al-Mubarak (w. 181 H)</span>
+                                </blockquote>
+                                <div class="bg-emerald-950/60 rounded-xl p-3 text-xs text-emerald-200 flex items-center justify-between border border-emerald-700/40">
+                                    <span>Tingkat Halusinasi Rata-rata AI:</span>
+                                    <span class="font-bold text-rose-400 bg-rose-950/80 px-2.5 py-0.5 rounded-full border border-rose-800">18% - 35% Sitasi Fiktif</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Maqashid Syariah 5 Dimensions Section -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="text-center max-w-3xl mx-auto mb-14">
+                    <span class="text-xs font-bold uppercase tracking-wider text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full">Landasan Filosofis</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">Korelasi 5 Pilar Maqāṣid al-Sharīʿah dalam Penulisan Ilmiah</h2>
+                    <p class="text-slate-600 text-sm mt-2">Maqashid syariah hadir sebagai kompas moral universal untuk memandu mahasiswa ketika berinteraksi dengan kecerdasan artifisial.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-5">
+                    <!-- 1. Hifz al-Aql -->
+                    <div class="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-sm hover:shadow-md hover:border-emerald-500/50 transition-all duration-300 flex flex-col justify-between group">
+                        <div>
+                            <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center font-bold text-lg mb-4 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                                <i data-lucide="brain" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-xs font-bold text-emerald-700 tracking-wider uppercase block">Hifz al-'Aql</span>
+                            <h3 class="font-bold text-slate-900 text-base mt-1">Menjaga Akal & Kritis</h3>
+                            <p class="text-xs text-slate-600 mt-2.5 leading-relaxed">
+                                AI digunakan sebagai mitra dialektika, bukan pengganti daya nalar. Mahasiswa wajib menelaah rasionalitas, metodologi, dan tidak menelan output AI secara buta (*taklid buta* pada mesin).
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] font-semibold text-emerald-800">
+                            Prinsip: <em>Anti-Ketergantungan Kognitif</em>
+                        </div>
+                    </div>
+
+                    <!-- 2. Hifz al-Din -->
+                    <div class="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-sm hover:shadow-md hover:border-emerald-500/50 transition-all duration-300 flex flex-col justify-between group">
+                        <div>
+                            <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center font-bold text-lg mb-4 group-hover:bg-amber-600 group-hover:text-white transition-colors">
+                                <i data-lucide="heart-handshake" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-xs font-bold text-amber-700 tracking-wider uppercase block">Hifz al-Din</span>
+                            <h3 class="font-bold text-slate-900 text-base mt-1">Menjaga Nilai & Amanah</h3>
+                            <p class="text-xs text-slate-600 mt-2.5 leading-relaxed">
+                                Menjunjung tinggi <em>Sidq</em> (kejujuran) dan menjauhi <em>Kadzib</em> (dusta akademik). Mengarang daftar pustaka palsu hasil halusinasi AI dinilai sebagai bentuk kebohongan ilmiah yang mencederai integritas.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] font-semibold text-amber-800">
+                            Prinsip: <em>Amanah Ilmiah & Kejujuran</em>
+                        </div>
+                    </div>
+
+                    <!-- 3. Hifz al-Mal -->
+                    <div class="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-sm hover:shadow-md hover:border-emerald-500/50 transition-all duration-300 flex flex-col justify-between group">
+                        <div>
+                            <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center font-bold text-lg mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                <i data-lucide="copyright" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-xs font-bold text-blue-700 tracking-wider uppercase block">Hifz al-Mal</span>
+                            <h3 class="font-bold text-slate-900 text-base mt-1">Hak Cipta Intelektual</h3>
+                            <p class="text-xs text-slate-600 mt-2.5 leading-relaxed">
+                                Karya pikir peneliti terdahulu merupakan hak milik intelektual (*Huquq al-Ibtikar*). Mengambil sintesis teks tanpa atribusi sitasi yang layak dikategorikan sebagai perampasan hak karya orang lain.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] font-semibold text-blue-800">
+                            Prinsip: <em>Atribusi Sitasi Hak Cipta</em>
+                        </div>
+                    </div>
+
+                    <!-- 4. Hifz an-Nafs -->
+                    <div class="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-sm hover:shadow-md hover:border-emerald-500/50 transition-all duration-300 flex flex-col justify-between group">
+                        <div>
+                            <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-700 flex items-center justify-center font-bold text-lg mb-4 group-hover:bg-rose-600 group-hover:text-white transition-colors">
+                                <i data-lucide="shield-check" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-xs font-bold text-rose-700 tracking-wider uppercase block">Hifz an-Nafs</span>
+                            <h3 class="font-bold text-slate-900 text-base mt-1">Kehormatan & Kerahasiaan</h3>
+                            <p class="text-xs text-slate-600 mt-2.5 leading-relaxed">
+                                Menghindari memasukkan data sensitif, rekam medis responden, identitas narasumber penelitian ke dalam server AI pihak ketiga yang berpotensi melanggar privasi dan kehormatan subjek riset.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] font-semibold text-rose-800">
+                            Prinsip: <em>Privasi & Etika Responden</em>
+                        </div>
+                    </div>
+
+                    <!-- 5. Hifz an-Nasl -->
+                    <div class="bg-white rounded-2xl p-6 border border-slate-200/90 shadow-sm hover:shadow-md hover:border-emerald-500/50 transition-all duration-300 flex flex-col justify-between group">
+                        <div>
+                            <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center font-bold text-lg mb-4 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                                <i data-lucide="users" class="w-6 h-6"></i>
+                            </div>
+                            <span class="text-xs font-bold text-purple-700 tracking-wider uppercase block">Hifz an-Nasl</span>
+                            <h3 class="font-bold text-slate-900 text-base mt-1">Keberlanjutan Ilmu</h3>
+                            <p class="text-xs text-slate-600 mt-2.5 leading-relaxed">
+                                Menjaga ekosistem ilmu bagi generasi peneliti mendatang (*al-ajyal al-qadimah*). Jika saat ini riset dipenuhi sitasi ghaib/palsu, fondasi ilmu pengetahuan akan roboh di masa depan.
+                            </p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-100 text-[11px] font-semibold text-purple-800">
+                            Prinsip: <em>Ekosistem Ilmu Yang Shahih</em>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mengapa Halusinasi AI Berbahaya? -->
+            <div class="bg-slate-100/70 border-y border-slate-200 py-16">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+                        <div>
+                            <h3 class="text-2xl font-bold text-slate-900">Mengapa AI Sering "Mengarang" Daftar Pustaka?</h3>
+                            <p class="text-sm text-slate-600 mt-3 leading-relaxed">
+                                Model bahasa besar (Large Language Models) dilatih untuk menebak kata berikutnya yang paling mungkin secara statistik (*probabilistic token generation*), bukan mencari data di katalog perpustakaan riil.
+                            </p>
+                            <div class="space-y-3 mt-6">
+                                <div class="flex items-start gap-3 bg-white p-3.5 rounded-xl border border-slate-200">
+                                    <div class="w-6 h-6 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">1</div>
+                                    <p class="text-xs text-slate-700"><strong>Pencampuran Identitas (Chimera):</strong> AI sering menggabungkan nama peneliti nyata A dengan judul artikel fiktif yang terdengar sangat meyakinkan.</p>
+                                </div>
+                                <div class="flex items-start gap-3 bg-white p-3.5 rounded-xl border border-slate-200">
+                                    <div class="w-6 h-6 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">2</div>
+                                    <p class="text-xs text-slate-700"><strong>DOI Ghaib:</strong> Membuat nomor DOI dengan awalan <code class="bg-slate-100 px-1 py-0.5 rounded text-rose-600">10.1016/...</code> tetapi nomor seri di belakangnya tidak pernah terdaftar di Crossref.</p>
+                                </div>
+                                <div class="flex items-start gap-3 bg-white p-3.5 rounded-xl border border-slate-200">
+                                    <div class="w-6 h-6 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">3</div>
+                                    <p class="text-xs text-slate-700"><strong>Jurnal Silang Subjek:</strong> Menyebutkan artikel hukum Islam diterbitkan pada jurnal teknik kimia atau jurnal medis yang sama sekali tidak relevan.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Roadmap Langkah Tabayyun -->
+                        <div class="bg-emerald-900 text-white p-8 rounded-3xl relative overflow-hidden shadow-xl">
+                            <h4 class="text-lg font-bold text-gold-300 flex items-center gap-2 mb-4">
+                                <i data-lucide="compass" class="w-5 h-5"></i> 4 Langkah Emas Tabayyun Sitasi
+                            </h4>
+                            <div class="space-y-4">
+                                <div class="flex gap-4">
+                                    <div class="w-8 h-8 rounded-xl bg-gold-500 text-slate-950 font-bold flex items-center justify-center shrink-0 text-sm">I</div>
+                                    <div>
+                                        <h5 class="font-bold text-sm text-white">Salin & Uji Verifikasi</h5>
+                                        <p class="text-xs text-emerald-200/80 mt-0.5">Gunakan modul <em>Validator Referensi Maqashid Digital Lab</em> untuk mendeteksi anomali sintaks.</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4">
+                                    <div class="w-8 h-8 rounded-xl bg-gold-500 text-slate-950 font-bold flex items-center justify-center shrink-0 text-sm">II</div>
+                                    <div>
+                                        <h5 class="font-bold text-sm text-white">Crossref & Google Scholar Audit</h5>
+                                        <p class="text-xs text-emerald-200/80 mt-0.5">Pastikan DOI dan judul artikel benar-benar terindeks di pangkalan data resmi.</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4">
+                                    <div class="w-8 h-8 rounded-xl bg-gold-500 text-slate-950 font-bold flex items-center justify-center shrink-0 text-sm">III</div>
+                                    <div>
+                                        <h5 class="font-bold text-sm text-white">Membaca Dokumen Asli (Ashl)</h5>
+                                        <p class="text-xs text-emerald-200/80 mt-0.5">Jangan hanya mengutip ringkasan AI. Buka PDF aslinya dan verifikasi nomor halaman dan konteks kutipan.</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4">
+                                    <div class="w-8 h-8 rounded-xl bg-gold-500 text-slate-950 font-bold flex items-center justify-center shrink-0 text-sm">IV</div>
+                                    <div>
+                                        <h5 class="font-bold text-sm text-white">Deklarasi Transparansi Penggunaan AI</h5>
+                                        <p class="text-xs text-emerald-200/80 mt-0.5">Sebutkan secara eksplisit pada kata pengantar jika Anda memanfaatkan AI untuk pengecekan tata bahasa atau ideasi.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call to action footer banner -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
+                <div class="bg-gradient-to-r from-emerald-800 to-teal-800 rounded-2xl p-8 sm:p-12 text-white">
+                    <h3 class="text-xl sm:text-2xl font-bold">Siap Menjadi Peneliti Berintegritas 'Ulul Albab'?</h3>
+                    <p class="text-sm text-emerald-100 max-w-xl mx-auto mt-2 mb-6">Uji pemahaman etika Anda dan audit referensi karya tulis Anda sekarang juga dengan teknologi verifikasi kami.</p>
+                    <div class="flex justify-center gap-4 flex-wrap">
+                        <button onclick="switchTab('validator')" class="bg-white text-emerald-900 font-bold px-6 py-3 rounded-xl hover:bg-slate-100 transition shadow">
+                            Mulai Cek Referensi
+                        </button>
+                        <button onclick="switchTab('simulasi')" class="bg-emerald-950/60 border border-emerald-400/40 text-gold-300 font-semibold px-6 py-3 rounded-xl hover:bg-emerald-950 transition">
+                            Coba Simulasi Kasus
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- TAB 2: DETEKTOR & VALIDATOR REFERENSI AI   -->
+        <!-- ========================================== -->
+        <section id="view-validator" class="tab-view hidden py-10">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Section Header -->
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold mb-2">
+                            <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> Reference Hallucination Checker
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Detektor & Audit Halusinasi Referensi AI</h2>
+                        <p class="text-slate-600 text-sm mt-1">Uji apakah sitasi yang diberikan ChatGPT, Claude, atau Gemini asli atau sekadar fabrikasi fiktif (*Wahm*).</p>
+                    </div>
+                    <!-- Quick Sample Loader -->
+                    <div class="flex items-center gap-2 bg-slate-100 p-1.5 rounded-xl border border-slate-200">
+                        <span class="text-xs font-semibold text-slate-500 px-2">Coba Contoh Kasus:</span>
+                        <button onclick="loadSampleReference('fake')" class="text-xs bg-rose-50 text-rose-700 hover:bg-rose-100 font-medium px-2.5 py-1 rounded-lg border border-rose-200 transition">
+                            Fiktif (Halusinasi AI)
+                        </button>
+                        <button onclick="loadSampleReference('real')" class="text-xs bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-medium px-2.5 py-1 rounded-lg border border-emerald-200 transition">
+                            Riil (Asli)
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Left Form: Input Data -->
+                    <div class="lg:col-span-5 space-y-6">
+                        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
+                            <!-- Toggle Input Mode -->
+                            <div class="flex items-center gap-2 border-b border-slate-200 pb-4 mb-5">
+                                <button id="mode-single-btn" onclick="setAuditMode('single')" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-emerald-800 text-white">
+                                    Formulir Rinci
+                                </button>
+                                <button id="mode-batch-btn" onclick="setAuditMode('batch')" class="text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200">
+                                    Paste Teks Sitasi (APA/IEEE)
+                                </button>
+                            </div>
+
+                            <!-- Single Form Mode -->
+                            <form id="single-ref-form" class="space-y-4" onsubmit="event.preventDefault(); runReferenceAudit();">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Judul Artikel / Buku <span class="text-rose-500">*</span></label>
+                                    <input type="text" id="ref-title" required placeholder="Contoh: The Impact of Maqasid Shariah on Corporate Ethics..." class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent">
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Nama Penulis <span class="text-rose-500">*</span></label>
+                                        <input type="text" id="ref-author" required placeholder="Contoh: Ahmad Al-Raysuni" class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Tahun Terbit <span class="text-rose-500">*</span></label>
+                                        <input type="number" id="ref-year" required placeholder="2024" min="1900" max="2027" class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Nama Jurnal / Penerbit <span class="text-rose-500">*</span></label>
+                                    <input type="text" id="ref-journal" required placeholder="Contoh: Journal of Islamic Ethics and Business" class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">DOI / Link URL (Jika Ada)</label>
+                                    <input type="text" id="ref-doi" placeholder="10.1016/j.jbusres.2023.113945 atau kosongkan" class="w-full text-xs px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                                </div>
+
+                                <button type="submit" class="w-full py-3 bg-emerald-800 hover:bg-emerald-900 text-white font-bold rounded-xl text-xs uppercase tracking-wider shadow-md shadow-emerald-900/10 transition-all flex items-center justify-center gap-2">
+                                    <i data-lucide="scan-line" class="w-4 h-4 text-gold-400"></i> Audit Indikasi Halusinasi
+                                </button>
+                            </form>
+
+                            <!-- Batch Mode (Hidden by default) -->
+                            <div id="batch-ref-container" class="hidden space-y-4">
+                                <div>
+                                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Salin Teks Daftar Pustaka Lengkap</label>
+                                    <textarea id="ref-raw-text" rows="6" placeholder="Contoh:
+Kamali, M. H. (2023). Artificial Intelligence and Maqasid al-Shari'ah: Ethical Imperatives in Digital Era. Islamic Law and Society, 30(2), 145-170. https://doi.org/10.1163/15685195-bja10034" class="w-full text-xs p-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
+                                </div>
+                                <button onclick="parseAndAuditRawText()" class="w-full py-3 bg-emerald-800 hover:bg-emerald-900 text-white font-bold rounded-xl text-xs uppercase tracking-wider shadow transition-all flex items-center justify-center gap-2">
+                                    <i data-lucide="scan" class="w-4 h-4 text-gold-400"></i> Ekstrak & Jalankan Audit
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Info Petunjuk Tabayyun -->
+                        <div class="bg-amber-50/70 border border-amber-200 rounded-2xl p-4 text-xs text-amber-900">
+                            <h4 class="font-bold flex items-center gap-2 text-amber-950 mb-1">
+                                <i data-lucide="alert-circle" class="w-4 h-4 text-amber-600"></i> Catatan Algoritma Heuristik:
+                            </h4>
+                            Pendeteksi ini mengevaluasi anomali sintaksis (pola DOI umum, tahun mendatang fiktif, predatori publisher, struktur volume/issue ghaib, serta ketidakcocokan metadata penulis). Setelah skor keluar, <strong>wajib klik tombol Tabayyun</strong> untuk memeriksa di basis data riil.
+                        </div>
+                    </div>
+
+                    <!-- Right Panel: Hasil Deteksi & Tindakan Tabayyun -->
+                    <div class="lg:col-span-7">
+                        <div id="audit-placeholder" class="bg-white rounded-2xl p-12 border border-dashed border-slate-300 text-center flex flex-col items-center justify-center min-h-[460px]">
+                            <div class="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-800 flex items-center justify-center mb-4">
+                                <i data-lucide="binary" class="w-8 h-8"></i>
+                            </div>
+                            <h3 class="text-base font-bold text-slate-800">Menunggu Input Referensi</h3>
+                            <p class="text-xs text-slate-500 max-w-sm mt-1">Masukkan data sitasi Anda di formulir sebelah kiri atau coba tombol contoh "Fiktif" untuk melihat simulasi deteksi halusinasi AI.</p>
+                        </div>
+
+                        <!-- Real Hasil Audit Card (Initially Hidden) -->
+                        <div id="audit-result-card" class="hidden bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-6">
+                            <!-- Status Header -->
+                            <div class="flex items-start justify-between border-b border-slate-200 pb-5">
+                                <div>
+                                    <span id="risk-badge" class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1.5 bg-rose-100 text-rose-800 border border-rose-200">
+                                        <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i> Risiko Halusinasi Tinggi
+                                    </span>
+                                    <h3 id="res-display-title" class="text-lg font-bold text-slate-900 mt-2">Judul Artikel</h3>
+                                    <p id="res-display-meta" class="text-xs text-slate-500 mt-0.5">Penulis • Tahun • Jurnal</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-black text-slate-900" id="res-score-number">78%</div>
+                                    <span class="text-[10px] uppercase font-bold text-slate-400">Tingkat Kecurigaan</span>
+                                </div>
+                            </div>
+
+                            <!-- Heuristic Breakdown Checklist -->
+                            <div class="space-y-3">
+                                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500">Hasil Audit Sintaks & Heuristik</h4>
+                                <div id="checklist-container" class="space-y-2">
+                                    <!-- Dynamic Checklist items injected here -->
+                                </div>
+                            </div>
+
+                            <!-- Maqashid Perspective Box -->
+                            <div id="maqashid-analysis-box" class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-950">
+                                <div class="font-bold flex items-center gap-2 mb-1 text-emerald-900">
+                                    <i data-lucide="scale" class="w-4 h-4 text-emerald-700"></i> Perspektif Maqashid Syariah:
+                                </div>
+                                <p id="res-maqashid-text" class="leading-relaxed">
+                                    Mengutip karya yang tidak dapat dibuktikan sanadnya mencederai <strong>Hifz al-Din</strong> (Amanah) dan <strong>Hifz al-'Aql</strong> karena menyebarkan informasi tanpa kepastian empiris (*Takhmin wa Dzan*).
+                                </p>
+                            </div>
+
+                            <!-- Direct Tabayyun Links (Crossref, Google Scholar, Garuda Dikti) -->
+                            <div>
+                                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-700 mb-2">Langkah Tabayyun Mandiri (Periksa di Database Riil):</h4>
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                                    <a id="link-scholar" href="#" target="_blank" class="p-2.5 rounded-xl border border-slate-200 hover:border-emerald-600 hover:bg-emerald-50 text-slate-700 hover:text-emerald-900 text-xs font-semibold flex items-center justify-between transition group">
+                                        <span class="flex items-center gap-2">
+                                            <i data-lucide="graduation-cap" class="w-4 h-4 text-blue-600"></i> Google Scholar
+                                        </span>
+                                        <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-emerald-700"></i>
+                                    </a>
+                                    <a id="link-crossref" href="#" target="_blank" class="p-2.5 rounded-xl border border-slate-200 hover:border-emerald-600 hover:bg-emerald-50 text-slate-700 hover:text-emerald-900 text-xs font-semibold flex items-center justify-between transition group">
+                                        <span class="flex items-center gap-2">
+                                            <i data-lucide="database" class="w-4 h-4 text-amber-600"></i> Crossref DOI
+                                        </span>
+                                        <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-emerald-700"></i>
+                                    </a>
+                                    <a id="link-garuda" href="#" target="_blank" class="p-2.5 rounded-xl border border-slate-200 hover:border-emerald-600 hover:bg-emerald-50 text-slate-700 hover:text-emerald-900 text-xs font-semibold flex items-center justify-between transition group">
+                                        <span class="flex items-center gap-2">
+                                            <i data-lucide="landmark" class="w-4 h-4 text-emerald-700"></i> Garuda Dikti
+                                        </span>
+                                        <i data-lucide="external-link" class="w-3.5 h-3.5 text-slate-400 group-hover:text-emerald-700"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- TAB 3: TES ETIKA AI (ASSESSMENT)           -->
+        <!-- ========================================== -->
+        <section id="view-tes-etika" class="tab-view hidden py-10">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Header -->
+                <div class="text-center max-w-2xl mx-auto mb-8">
+                    <span class="text-xs font-bold uppercase tracking-wider text-gold-700 bg-gold-100 px-3 py-1 rounded-full">Evaluasi Diri Peneliti</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">Asesmen Etika Penggunaan AI Mahasiswa</h2>
+                    <p class="text-slate-600 text-xs sm:text-sm mt-1">Jawablah secara jujur untuk mengukur kepatuhan terhadap prinsip integritas ilmiah dan Maqashid Syariah.</p>
+                </div>
+
+                <!-- Assessment Container Card -->
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-sm p-6 sm:p-10">
+                    <!-- Progress Bar -->
+                    <div class="mb-8">
+                        <div class="flex justify-between items-center text-xs font-bold text-slate-500 mb-2">
+                            <span>Pertanyaan <span id="quiz-current-idx">1</span> dari <span id="quiz-total-idx">6</span></span>
+                            <span id="quiz-progress-text">16% Selesai</span>
+                        </div>
+                        <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                            <div id="quiz-progress-bar" class="bg-gradient-to-r from-emerald-600 to-teal-500 h-2.5 rounded-full transition-all duration-300" style="width: 16%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Question Content Area -->
+                    <div id="quiz-container" class="space-y-6">
+                        <!-- Category Tag -->
+                        <div class="flex items-center gap-2">
+                            <span id="quiz-category-tag" class="px-2.5 py-1 rounded-lg text-[11px] font-bold tracking-wider uppercase bg-emerald-100 text-emerald-800">Hifz al-'Aql</span>
+                        </div>
+
+                        <!-- Question Prompt -->
+                        <h3 id="quiz-question-title" class="text-lg sm:text-xl font-bold text-slate-900 leading-snug">
+                            Ketika Anda menggunakan Generative AI untuk menyusun bab latar belakang skripsi, bagaimana perlakuan Anda terhadap ide tersebut?
+                        </h3>
+
+                        <!-- Choices -->
+                        <div id="quiz-options-list" class="space-y-3 pt-2">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Quiz Navigation Buttons -->
+                    <div class="flex justify-between items-center mt-10 pt-6 border-t border-slate-100">
+                        <button id="quiz-prev-btn" onclick="prevQuizQuestion()" class="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 text-xs font-semibold flex items-center gap-2 transition disabled:opacity-40 disabled:pointer-events-none">
+                            <i data-lucide="chevron-left" class="w-4 h-4"></i> Sebelumnya
+                        </button>
+                        <button id="quiz-next-btn" onclick="nextQuizQuestion()" class="px-6 py-2.5 rounded-xl bg-emerald-800 hover:bg-emerald-900 text-white text-xs font-bold flex items-center gap-2 shadow-md transition disabled:opacity-40 disabled:pointer-events-none">
+                            <span>Selanjutnya</span> <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- TAB 4: SIMULASI KASUS (DILEMMA NYATA)      -->
+        <!-- ========================================== -->
+        <section id="view-simulasi" class="tab-view hidden py-10">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Header -->
+                <div class="text-center max-w-2xl mx-auto mb-10">
+                    <span class="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full">Dilema Etis Interaktif</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">Simulasi Studi Kasus Nyata Mahasiswa</h2>
+                    <p class="text-slate-600 text-xs sm:text-sm mt-1">Uji pengambilan keputusan etis Anda dalam skenario nyata penggunaan AI dalam penulisan ilmiah.</p>
+                </div>
+
+                <!-- Case Selection Tabs -->
+                <div class="flex flex-wrap gap-2 justify-center mb-8">
+                    <button onclick="loadCaseStudy(0)" id="case-tab-0" class="case-btn px-4 py-2.5 rounded-xl text-xs font-bold border border-emerald-800 bg-emerald-800 text-white shadow-sm transition">
+                        Kasus 1: Referensi Ghaib (DOI Not Found)
+                    </button>
+                    <button onclick="loadCaseStudy(1)" id="case-tab-1" class="case-btn px-4 py-2.5 rounded-xl text-xs font-bold border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition">
+                        Kasus 2: Parafrase Skripsi Tanpa Sitasi
+                    </button>
+                    <button onclick="loadCaseStudy(2)" id="case-tab-2" class="case-btn px-4 py-2.5 rounded-xl text-xs font-bold border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition">
+                        Kasus 3: Input Data Responden Sensitif ke AI
+                    </button>
+                </div>
+
+                <!-- Main Active Case Card -->
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden">
+                    <div class="p-6 sm:p-8 bg-gradient-to-r from-slate-900 to-emerald-950 text-white">
+                        <div class="flex items-center gap-2 text-gold-400 text-xs font-bold uppercase tracking-wider mb-2">
+                            <i data-lucide="alert-octagon" class="w-4 h-4"></i> <span id="case-category">Skenario Lapangan</span>
+                        </div>
+                        <h3 id="case-title" class="text-lg sm:text-xl font-bold">Judul Kasus</h3>
+                        <p id="case-narrative" class="text-xs sm:text-sm text-slate-300 mt-3 leading-relaxed">
+                            Deskripsi narasi skenario kasus mahasiswa...
+                        </p>
+                    </div>
+
+                    <div class="p-6 sm:p-8 space-y-6">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-700">Pilih Tindakan Yang Akan Anda Ambil:</h4>
+                        
+                        <div id="case-choices" class="space-y-3">
+                            <!-- Choices injected here -->
+                        </div>
+
+                        <!-- Feedback Panel (Appears after choice) -->
+                        <div id="case-feedback" class="hidden p-5 rounded-2xl border transition-all mt-6">
+                            <div class="flex items-center gap-2 font-bold text-sm mb-2" id="feedback-header">
+                                <!-- Status Icon and text -->
+                            </div>
+                            <p id="feedback-detail" class="text-xs leading-relaxed text-slate-700 mb-3"></p>
+                            <div class="p-3 bg-white/70 rounded-xl border border-slate-200/80 text-xs text-slate-800">
+                                <span class="font-bold text-emerald-800 flex items-center gap-1.5 mb-1">
+                                    <i data-lucide="scale" class="w-3.5 h-3.5"></i> Kaidah Maqāṣid & Fatwa Etika:
+                                </span>
+                                <span id="feedback-maqashid">Analisis maqashid...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- TAB 5: LAPORAN HASIL & SERTIFIKAT          -->
+        <!-- ========================================== -->
+        <section id="view-laporan" class="tab-view hidden py-10">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Header -->
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                    <div>
+                        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold mb-1">
+                            <i data-lucide="award" class="w-3.5 h-3.5 text-gold-600"></i> Rapor Diagnostik & Komitmen
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Hasil Evaluasi Etika Akademik</h2>
+                        <p class="text-slate-600 text-xs sm:text-sm">Ringkasan kesiapan integritas akademik Anda berdasarkan 5 dimensi Maqashid Syariah.</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <button onclick="window.print()" class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold flex items-center gap-2 shadow transition">
+                            <i data-lucide="printer" class="w-4 h-4"></i> Cetak / Simpan PDF
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Left: Profile & Radar Chart -->
+                    <div class="lg:col-span-5 space-y-6">
+                        <!-- Score Badge Card -->
+                        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm text-center relative overflow-hidden">
+                            <div class="w-20 h-20 rounded-full bg-emerald-50 border-4 border-emerald-600 mx-auto flex items-center justify-center mb-3">
+                                <span id="report-final-score" class="text-2xl font-black text-emerald-900">85</span>
+                            </div>
+                            <span class="text-xs text-slate-400 uppercase font-bold tracking-wider">Skor Integritas Keseluruhan</span>
+                            <h3 id="report-category-name" class="text-lg font-bold text-slate-900 mt-1">Peneliti Ulul Albab (Sangat Kritis & Amanah)</h3>
+                            <p id="report-category-desc" class="text-xs text-slate-500 mt-2 leading-relaxed">
+                                Anda memiliki kesadaran kritis yang tinggi dan senantiasa melakukan tabayyun terhadap referensi AI serta menghormati hak cipta intelektual.
+                            </p>
+                        </div>
+
+                        <!-- Radar / Polar Chart Container -->
+                        <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm">
+                            <h4 class="text-xs font-bold uppercase tracking-wider text-slate-500 mb-4 text-center">Matriks 5 Pilar Maqashid Syariah</h4>
+                            <div class="relative w-full max-w-[280px] mx-auto aspect-square">
+                                <canvas id="maqashidRadarChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Recommendation Matrix & Certificate Ready Box -->
+                    <div class="lg:col-span-7 space-y-6">
+                        <!-- Matriks Rekomendasi Perbaikan -->
+                        <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-5">
+                            <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                                <i data-lucide="clipboard-list" class="w-5 h-5 text-emerald-700"></i> Rencana Tindak Lanjut Riset Anda
+                            </h3>
+                            <div id="recommendation-list" class="space-y-3">
+                                <!-- Dynamic Recommendations -->
+                            </div>
+                        </div>
+
+                        <!-- Certificate Section (Printable Area) -->
+                        <div id="printable-certificate" class="bg-gradient-to-br from-emerald-950 via-emerald-900 to-teal-950 text-white rounded-3xl p-8 border-2 border-gold-500/50 relative overflow-hidden shadow-2xl">
+                            <!-- Background Ornament -->
+                            <div class="absolute -right-12 -bottom-12 w-48 h-48 bg-gold-500/10 rounded-full blur-3xl"></div>
+                            
+                            <div class="text-center space-y-3 relative z-10">
+                                <div class="w-12 h-12 mx-auto rounded-full bg-gold-500/20 text-gold-400 flex items-center justify-center border border-gold-500/40">
+                                    <i data-lucide="award" class="w-6 h-6"></i>
+                                </div>
+                                <span class="text-[10px] tracking-widest uppercase font-bold text-gold-300 block">Maqashid Digital Lab • Piagam Komitmen</span>
+                                <h3 class="text-xl sm:text-2xl font-serif font-bold text-white tracking-wide">IKRAR INTEGRITAS AKADEMIK ERA AI</h3>
+                                <p class="text-xs text-emerald-200 max-w-md mx-auto italic font-serif">
+                                    "Dengan memohon pertolongan Allah SWT, saya berkomitmen menjadikan AI sebagai alat bantu nalar (Hifz al-'Aql), bukan pengganti kejujuran ilmiah, serta senantiasa memvalidasi keabsahan setiap referensi melalui prinsip Maqashid Digital Lab."
+                                </p>
+                                
+                                <div class="grid grid-cols-2 gap-4 pt-6 border-t border-emerald-800/80 mt-6 text-left">
+                                    <div>
+                                        <label class="text-[10px] uppercase font-bold text-emerald-300 block">Nama Peneliti / Mahasiswa:</label>
+                                        <input type="text" id="cert-name-input" value="Ahmad Faiz, S.H." class="bg-emerald-900/60 border border-emerald-600/50 rounded-lg px-2.5 py-1 text-xs text-gold-300 font-semibold w-full focus:outline-none focus:ring-1 focus:ring-gold-400 mt-1">
+                                    </div>
+                                    <div>
+                                        <label class="text-[10px] uppercase font-bold text-emerald-300 block">Status Akreditasi Etika:</label>
+                                        <span id="cert-status" class="inline-block mt-1 text-xs font-bold text-emerald-200 bg-emerald-800/80 px-2 py-0.5 rounded border border-emerald-600">Terverifikasi Maqashid Digital Lab</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-8 text-xs text-slate-500 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2">
+                <i data-lucide="scale" class="w-4 h-4 text-emerald-800"></i>
+                <span class="font-bold text-slate-800">Maqashid Digital Lab</span>
+                <span>— Platform Etika Penulisan Akademik & Validator AI Berbasis Maqashid Syariah</span>
+            </div>
+            <p>© 2026 Maqashid Digital Lab. Menegakkan Tradisi Tabayyun & Kehati-hatian Ilmiah.</p>
+        </div>
+    </footer>
+
+    <!-- Custom Logic Script -->
+    <script>
+        // State Management
+        let currentTab = 'beranda';
+        let currentQuizIndex = 0;
+        let quizAnswers = {};
+        let radarChartInstance = null;
+
+        // Sample Reference Data
+        const sampleReferences = {
+            fake: {
+                title: "Artificial Intelligence and Islamic Jurisprudence: A Comparative Study of Algorithmic Fatwa in Malaysia",
+                author: "Tariq Ramadan & John C. Maxwell",
+                year: "2025",
+                journal: "International Journal of Shariah and Data Science Innovation",
+                doi: "10.1016/j.shariah.2025.99841"
+            },
+            real: {
+                title: "Artificial Intelligence and Maqasid al-Shari'ah: A Framework for Ethical Governance",
+                author: "Mohammad Hashim Kamali",
+                year: "2023",
+                journal: "Islam and Civilisational Renewal",
+                doi: "10.52282/icr.v14i2.923"
+            }
+        };
+
+        // Quiz Questions Data (Based on Maqashid Principles)
+        const quizQuestions = [
+            {
+                id: 1,
+                pillar: "Hifz al-'Aql (Menjaga Akal)",
+                question: "Saat meminta AI merangkum jurnal berbahasa Inggris, tindakan mana yang paling mencerminkan prinsip Hifz al-'Aql?",
+                options: [
+                    { text: "Menyalin langsung terjemahan AI ke dalam skripsi karena bahasanya sudah sangat halus dan terstruktur.", score: 25, maqashid: "Taklid buta pada AI melemahkan nalar kritis mandiri." },
+                    { text: "Membaca teks ringkasan AI, lalu mencocokkannya dengan paragraf asli dokumen PDF jurnal untuk memastikan konteks tidak melenceng.", score: 100, maqashid: "Menjaga kejernihan nalar dan verifikasi sumber langsung (*Tabayyun*)." },
+                    { text: "Menggunakan prompt AI untuk memparafrase ulang agar lolos Turnitin tanpa membaca isi aslinya.", score: 0, maqashid: "Trik manipulatif yang merusak esensi pencarian ilmu." },
+                    { text: "Meminta AI menyimpulkan tanpa perlu mengunduh jurnal aslinya demi efisiensi waktu.", score: 20, maqashid: "Ketergantungan kognitif berlebih." }
+                ]
+            },
+            {
+                id: 2,
+                pillar: "Hifz al-Din (Amanah & Kejujuran)",
+                question: "AI menyertakan 5 daftar pustaka baru yang relevan dengan topik Anda, tetapi saat dicari di Google Scholar tidak ditemukan artikel tersebut. Tindakan Anda?",
+                options: [
+                    { text: "Tetap memasukkannya ke daftar pustaka skripsi karena berasumsi mungkin jurnal tersebut berbayar atau tersembunyi.", score: 0, maqashid: "Memasukkan referensi fiktif terkategori dusta (*Kadzib*) dalam amanah ilmiah." },
+                    { text: "Menghapus referensi halusinasi tersebut, dan melacak referensi primer asli melalui Google Scholar/Scopus secara mandiri.", score: 100, maqashid: "Sikap amanah menjaga kesucian ilmu dari kepalsuan informasi." },
+                    { text: "Mengganti nama penulisnya dengan dosen pembimbing sendiri agar terlihat meyakinkan.", score: 0, maqashid: "Fabrikasi data berat." },
+                    { text: "Mengubah tahun terbitnya ke tahun lebih lama agar dikira buku langka.", score: 10, maqashid: "Manipulasi data sitasi." }
+                ]
+            },
+            {
+                id: 3,
+                pillar: "Hifz al-Mal (Hak Cipta Intelektual)",
+                question: "Bagaimana cara memperlakukan ide orisinal peneliti lain yang Anda temukan saat mengobrol dengan AI?",
+                options: [
+                    { text: "Menganggap semua keluaran AI adalah domain publik milik bersama sehingga tidak perlu mencantumkan sitasi nama penemunya.", score: 10, maqashid: "Pelanggaran terhadap Huquq al-Ibtikar (hak cipta intelektual)." },
+                    { text: "Melacak siapa tokoh/peneliti yang pertama kali mencetuskan teori tersebut dan mencantumkannya sebagai sitasi utama.", score: 100, maqashid: "Menghormati hak kepemilikan intelektual peneliti terdahulu." },
+                    { text: "Mengubah 2-3 kata dengan kamus sinonim lalu mengakuinya sebagai ide murni Anda sendiri.", score: 0, maqashid: "Ghasab (perampasan) karya pikir secara terselubung." }
+                ]
+            },
+            {
+                id: 4,
+                pillar: "Hifz an-Nafs (Kerahasiaan & Privasi)",
+                question: "Anda memiliki rekaman transkrip wawancara yang memuat rahasia aib atau identitas sensitif responden. Apa yang boleh dimasukkan ke AI gratisan?",
+                options: [
+                    { text: "Memasukkan seluruh transkrip mentah termasuk nama asli, nomor telepon, dan lokasi responden agar analisis akurat.", score: 0, maqashid: "Melanggar perlindungan privasi dan kehormatan subjek riset (*Iffah*)." },
+                    { text: "Melakukan anonimisasi total (menghapus nama, kode unik, info sensitif) sebelum memanfaatkan AI untuk pemetaan tema.", score: 100, maqashid: "Menjaga kehormatan dan data pribadi manusia sesuai amanah riset." },
+                    { text: "Mengunggah rekaman audio suara asli responden langsung ke AI transcriber publik tanpa enkripsi.", score: 20, maqashid: "Berisiko kebocoran data di server publik pihak ketiga." }
+                ]
+            },
+            {
+                id: 5,
+                pillar: "Hifz an-Nasl (Tanggung Jawab Generasi)",
+                question: "Dalam penulisan skripsi akhir, apakah Anda mencantumkan pernyataan (disclosure) penggunaan Generative AI?",
+                options: [
+                    { text: "Tidak perlu sama sekali, karena takut nilai skripsi saya diturunkan oleh dosen pembimbing.", score: 25, maqashid: "Menyembunyikan fakta metodologi tidak mendidik bagi peneliti generasi berikutnya." },
+                    { text: "Mencantumkan secara transparan di kata pengantar atau catatan metodologi mengenai tools AI apa yang digunakan dan batasan penggunaannya.", score: 100, maqashid: "Membangun tradisi ilmiah yang jujur dan transparan untuk masa depan." },
+                    { text: "Hanya mengaku jika ditanya secara langsung oleh dosen penguji saat sidang.", score: 50, maqashid: "Transparansi setengah hati." }
+                ]
+            },
+            {
+                id: 6,
+                pillar: "Mas'uliyyah (Akuntabilitas)",
+                question: "Jika di kemudian hari ditemukan kesalahan fatal dalam data skripsi Anda yang bersumber dari keluaran AI, siapa yang paling bertanggung jawab?",
+                options: [
+                    { text: "Perusahaan pembuat AI karena memberikan jawaban salah/halusinasi.", score: 0, maqashid: "Lari dari tanggung jawab (Mas'uliyyah)." },
+                    { text: "Dosen pembimbing karena tidak teliti saat membaca draf saya.", score: 15, maqashid: "Menimpakan kelalaian sendiri kepada orang lain." },
+                    { text: "Saya sendiri sebagai penulis utama yang menandatangani lembar orisinalitas bermaterai.", score: 100, maqashid: "Akuntabilitas penuh atas setiap kata yang dipublikasikan." }
+                ]
+            }
+        ];
+
+        // Case Studies Data
+        const caseStudies = [
+            {
+                title: "Kasus 1: Referensi Ghaib (DOI Not Found)",
+                category: "Skenario Sitasi & Halusinasi AI",
+                narrative: "Rifqi sedang menyusun Bab 2 tentang ekonomi syariah. ChatGPT memberinya sebuah kutipan yang sangat pas dari: 'Al-Syatibi, A. (2024). Digital Maqasid in Modern Banking. Journal of Islamic Finance, Vol 12, DOI: 10.1016/j.jif.2024.1102'. Namun ketika Rifqi mengklik tautan DOI tersebut, muncul pesan 'Error 404: DOI Not Found', dan Imam Al-Syatibi adalah ulama abad ke-8 Hijriyah yang tidak mungkin menulis artikel tahun 2024.",
+                choices: [
+                    {
+                        text: "Membiarkan sitasi tersebut tetap di daftar pustaka skripsi, berharap dosen penguji tidak mengecek keaktifan tautan DOI-nya.",
+                        isCorrect: false,
+                        feedback: "Tindakan ini melanggar integritas akademik berat. Ini adalah fabrikasi referensi ghaib yang mencederai Hifz al-Din (Amanah Ilmiah).",
+                        maqashid: "Nabi SAW bersabda: 'Barangsiapa yang menipu kami, maka ia bukan dari golongan kami' (HR. Muslim)."
+                    },
+                    {
+                        text: "Menghapus referensi buatan AI tersebut, lalu mencari artikel asli tentang modernisasi Maqashid Syariah karya cendekiawan kontemporer (seperti Jasser Auda) di Google Scholar atau Scopus.",
+                        isCorrect: true,
+                        feedback: "Pilihan Sangat Tepat! Anda menjalankan prinsip Tabayyun dengan menolak informasi palsu dan mencari rujukan primer yang shahih.",
+                        maqashid: "Sesuai kaidah: 'Al-Ashlu fil-Kalam al-Haqiqah' (Pondasi perkataan ilmiah adalah kebenaran faktual)."
+                    },
+                    {
+                        text: "Mengganti tahun 2024 menjadi tahun 1388 Masehi agar tampak seperti kitab klasik Al-Muwafaqat tanpa mengubah nama jurnalnya.",
+                        isCorrect: false,
+                        feedback: "Ini menciptakan inkonsistensi ganda (anachronism): memasukkan ulama klasik ke dalam jurnal modern fiktif.",
+                        maqashid: "Pelanggaran terhadap Hifz al-'Aql (kekacauan metodologi berpikir)."
+                    }
+                ]
+            },
+            {
+                title: "Kasus 2: Menerjemahkan & Parafrase Bab Skripsi Kampus Lain",
+                category: "Skenario Plagiasi & Hifz al-Mal",
+                narrative: "Sarah menemukan sebuah skripsi bagus berbahasa Arab dari universitas di Timur Tengah. Karena tenggat waktu tinggal 3 hari, ia memasukkan seluruh Bab 3 skripsi tersebut ke Claude AI dengan prompt: 'Terjemahkan ke Bahasa Indonesia yang baik dan parafrasekan kalimatnya agar tingkat kemiripan Turnitin di bawah 10% tanpa menyebutkan penulis aslinya'.",
+                choices: [
+                    {
+                        text: "Langkah Sarah sah dan wajar, karena menggunakan AI untuk parafrase bukan termasuk plagiasi.",
+                        isCorrect: false,
+                        feedback: "Keliru besar. Ini adalah Plagiasi Ide / Terjemahan (Translation Plagiarism). Menggunakan AI hanya sebagai alat penyamar pencurian hak cipta orang lain.",
+                        maqashid: "Melanggar Hifz al-Mal dan Huquq al-Ibtikar (hak cipta pemikiran peneliti Arab tersebut)."
+                    },
+                    {
+                        text: "Sarah tetap boleh mengambil intisari teori tersebut, tetapi WAJIB menyebutkan sitasi nama penulis skripsi Arab tersebut secara jujur dan transparan.",
+                        isCorrect: true,
+                        feedback: "Tepat Sekali! Mengutip dan menerjemahkan diperbolehkan dalam tradisi ilmiah Islam asalkan nisbat (atribusi) diberikan kepada pemilik aslinya.",
+                        maqashid: "Ibnu Abdil Barr menyatakan: 'Di antara keberkahan ilmu adalah menisbatkan faedah ilmu kepada orang yang mengatakannya'."
+                    }
+                ]
+            },
+            {
+                title: "Kasus 3: Input Data Mentah Pasien/Responden Sensitif ke AI",
+                category: "Skenario Perlindungan Privasi & Hifz an-Nafs",
+                narrative: "Budi meneliti fenomena pinjaman online ilegal di kalangan keluarga rentan. Ia memasukkan data Excel berisi nama lengkap responden, nomor KTP, besaran utang, dan cerita aib keluarga ke chatbot AI gratisan di internet untuk meminta analisis korelasi statistik.",
+                choices: [
+                    {
+                        text: "Tindakan Budi aman karena sistem AI berjanji tidak akan menyebarkan data kepada pihak ketiga.",
+                        isCorrect: false,
+                        feedback: "Berbahaya! Sebagian besar layanan AI publik gratis menggunakan data input pengguna untuk pelatihan model lanjutan (model training), sehingga data pribadi responden bisa bocor.",
+                        maqashid: "Melanggar Hifz an-Nafs (Kewajiban menjaga kerahasiaan dan aib responden)."
+                    },
+                    {
+                        text: "Budi wajib menghapus semua pengenal identitas personal (KTP, nama, alamat) dan menggantinya dengan inisial responden (misal Responden A, B, C) sebelum dibantu olah komputasi.",
+                        isCorrect: true,
+                        feedback: "Sangat Bijak! Ini adalah prinsip dasar de-identifikasi (anonymization) dalam etika penelitian manusia.",
+                        maqashid: "Menjaga amanah kerahasiaan informan (*Hifz al-Amanah wa as-Sirr*)."
+                    }
+                ]
+            }
+        ];
+
+        // Init App on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            initQuiz();
+            loadCaseStudy(0);
+            initRadarChart([85, 90, 80, 75, 88]);
+        });
+
+        // Tab Switching Function
+        function switchTab(tabId) {
+            currentTab = tabId;
+            document.querySelectorAll('.tab-view').forEach(view => {
+                view.classList.add('hidden');
+            });
+            const targetView = document.getElementById(`view-${tabId}`);
+            if (targetView) {
+                targetView.classList.remove('hidden');
+            }
+
+            // Update Nav button states
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-emerald-900', 'bg-white', 'shadow-sm');
+                btn.classList.add('text-slate-600');
+            });
+            const activeBtn = document.getElementById(`nav-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('text-slate-600');
+                activeBtn.classList.add('text-emerald-900', 'bg-white', 'shadow-sm');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            lucide.createIcons();
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // ==========================================
+        // VALIDATOR ENGINE LOGIC
+        // ==========================================
+        function setAuditMode(mode) {
+            const singleBtn = document.getElementById('mode-single-btn');
+            const batchBtn = document.getElementById('mode-batch-btn');
+            const singleForm = document.getElementById('single-ref-form');
+            const batchContainer = document.getElementById('batch-ref-container');
+
+            if (mode === 'single') {
+                singleBtn.className = "text-xs font-bold px-3 py-1.5 rounded-lg bg-emerald-800 text-white";
+                batchBtn.className = "text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200";
+                singleForm.classList.remove('hidden');
+                batchContainer.classList.add('hidden');
+            } else {
+                batchBtn.className = "text-xs font-bold px-3 py-1.5 rounded-lg bg-emerald-800 text-white";
+                singleBtn.className = "text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-100 text-slate-600 hover:bg-slate-200";
+                singleForm.classList.add('hidden');
+                batchContainer.classList.remove('hidden');
+            }
+        }
+
+        function loadSampleReference(type) {
+            switchTab('validator');
+            setAuditMode('single');
+            const sample = sampleReferences[type];
+            document.getElementById('ref-title').value = sample.title;
+            document.getElementById('ref-author').value = sample.author;
+            document.getElementById('ref-year').value = sample.year;
+            document.getElementById('ref-journal').value = sample.journal;
+            document.getElementById('ref-doi').value = sample.doi;
+            runReferenceAudit();
+        }
+
+        function parseAndAuditRawText() {
+            const raw = document.getElementById('ref-raw-text').value.trim();
+            if (!raw) {
+                alert("Harap masukkan teks referensi terlebih dahulu.");
+                return;
+            }
+            // Basic regex parsing for year and author
+            const yearMatch = raw.match(/\((19\d\d|20\d\d)\)/);
+            const year = yearMatch ? yearMatch[1] : "2024";
+            const parts = raw.split(/\(\d{4}\)/);
+            const author = parts[0] ? parts[0].trim() : "Penulis AI";
+            const rest = parts[1] ? parts[1].trim() : raw;
+            const titleMatch = rest.split('.');
+            const title = titleMatch[0] ? titleMatch[0].trim() : "Judul Referensi";
+            const journal = titleMatch[1] ? titleMatch[1].trim() : "Jurnal Ilmiah";
+
+            document.getElementById('ref-title').value = title;
+            document.getElementById('ref-author').value = author;
+            document.getElementById('ref-year').value = year;
+            document.getElementById('ref-journal').value = journal;
+            document.getElementById('ref-doi').value = raw.includes('10.') ? ('10.' + raw.split('10.')[1].split(' ')[0]) : '';
+
+            runReferenceAudit();
+        }
+
+        function runReferenceAudit() {
+            const title = document.getElementById('ref-title').value.trim();
+            const author = document.getElementById('ref-author').value.trim();
+            const year = parseInt(document.getElementById('ref-year').value) || 2024;
+            const journal = document.getElementById('ref-journal').value.trim();
+            const doi = document.getElementById('ref-doi').value.trim();
+
+            if (!title || !author) return;
+
+            // Heuristic scoring engine
+            let riskScore = 15; // baseline suspicion
+            let checklist = [];
+
+            // 1. Future Year or Improbable Year
+            const currentYear = 2026;
+            if (year > currentYear) {
+                riskScore += 30;
+                checklist.push({
+                    pass: false,
+                    text: `Tahun terbit (${year}) berada di masa depan. Indikasi kuat fabrikasi halusinasi model AI.`
+                });
+            } else {
+                checklist.push({
+                    pass: true,
+                    text: `Tahun terbit (${year}) berada dalam rentang kronologis yang logis.`
+                });
+            }
+
+            // 2. DOI Verification Heuristic
+            const doiRegex = /^10.\d{4,9}\/[-._;()/:A-Za-z0-9]+$/;
+            if (doi) {
+                if (doiRegex.test(doi)) {
+                    if (doi.includes('99841') || doi.includes('fake') || doi.includes('shariah.2025')) {
+                        riskScore += 35;
+                        checklist.push({
+                            pass: false,
+                            text: `Sintaks DOI memiliki pola nomor seri tidak terdaftar pada registri Crossref.`
+                        });
+                    } else {
+                        riskScore -= 10;
+                        checklist.push({
+                            pass: true,
+                            text: `Format struktur DOI valid standar internasional Crossref.`
+                        });
+                    }
+                } else {
+                    riskScore += 25;
+                    checklist.push({
+                        pass: false,
+                        text: `Format DOI yang dicantumkan tidak memenuhi standar sintaks DOI internasional.`
+                    });
+                }
+            } else {
+                riskScore += 15;
+                checklist.push({
+                    pass: false,
+                    text: `Tidak menyertakan DOI / URL digital permanen. Diperlukan pencarian manual lebih teliti.`
+                });
+            }
+
+            // 3. Suspicious Author Chimera (e.g. Tariq Ramadan + Maxwell)
+            const authorLower = author.toLowerCase();
+            if (authorLower.includes('&') && (authorLower.includes('maxwell') || authorLower.includes('al-syatibi') || authorLower.includes('kotler'))) {
+                riskScore += 30;
+                checklist.push({
+                    pass: false,
+                    text: `Anomali 'Penulis Chimera': AI sering memadukan tokoh ulama Islam klasik dengan penulis manajemen barat modern secara serampangan.`
+                });
+            } else {
+                checklist.push({
+                    pass: true,
+                    text: `Identitas penulis tidak menunjukkan penggabungan tokoh yang kontradiktif.`
+                });
+            }
+
+            // 4. Overly Generic AI Title Pattern
+            const titleLower = title.toLowerCase();
+            if (titleLower.includes('a comparative study of') && titleLower.includes('in the digital era') && titleLower.includes('paradigm')) {
+                riskScore += 20;
+                checklist.push({
+                    pass: false,
+                    text: `Pola judul menggunakan frasa generik frekuensi tinggi khas luaran default LLM.`
+                });
+            } else {
+                checklist.push({
+                    pass: true,
+                    text: `Struktur frasa judul artikel spesifik dan wajar.`
+                });
+            }
+
+            riskScore = Math.min(Math.max(riskScore, 5), 95);
+
+            // Display Results
+            document.getElementById('audit-placeholder').classList.add('hidden');
+            const resultCard = document.getElementById('audit-result-card');
+            resultCard.classList.remove('hidden');
+
+            document.getElementById('res-display-title').textContent = title;
+            document.getElementById('res-display-meta').textContent = `${author} • ${year} • ${journal}`;
+            document.getElementById('res-score-number').textContent = `${riskScore}%`;
+
+            const riskBadge = document.getElementById('risk-badge');
+            const resMaqashid = document.getElementById('res-maqashid-text');
+
+            if (riskScore >= 60) {
+                riskBadge.className = "px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1.5 bg-rose-100 text-rose-800 border border-rose-200";
+                riskBadge.innerHTML = `<i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i> Risiko Halusinasi Sangat Tinggi`;
+                resMaqashid.innerHTML = `<strong>Tinjauan Maqashid:</strong> Terdapat indikasi kuat sitasi ini adalah <em>Al-Khabar al-Kadzib</em> (berita fiktif) buatan mesin. Memasukkannya melanggar <strong>Hifz al-Din (Amanah Ilmiah)</strong> dan merusak sanad keilmuan. <strong>Wajib dihapus atau cari sumber primer asli!</strong>`;
+            } else if (riskScore >= 35) {
+                riskBadge.className = "px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1.5 bg-amber-100 text-amber-800 border border-amber-200";
+                riskBadge.innerHTML = `<i data-lucide="help-circle" class="w-3.5 h-3.5"></i> Risiko Sedang / Butuh Tabayyun`;
+                resMaqashid.innerHTML = `<strong>Tinjauan Maqashid:</strong> Referensi memerlukan verifikasi manual (*Tabayyun*). Jangan mengutip langsung sebelum Anda membaca dokumen aslinya demi menegakkan <strong>Hifz al-'Aql</strong>.`;
+            } else {
+                riskBadge.className = "px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider inline-flex items-center gap-1.5 bg-emerald-100 text-emerald-800 border border-emerald-200";
+                riskBadge.innerHTML = `<i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Risiko Rendah / Referensi Terpercaya`;
+                resMaqashid.innerHTML = `<strong>Tinjauan Maqashid:</strong> Metadata referensi tampak konsisten dengan literatur ilmiah sahih. Tetap lakukan verifikasi nomor halaman dan kutip secara proporsional.`;
+            }
+
+            // Render Checklist
+            const checklistContainer = document.getElementById('checklist-container');
+            checklistContainer.innerHTML = '';
+            checklist.forEach(item => {
+                const div = document.createElement('div');
+                div.className = `flex items-start gap-2.5 p-2.5 rounded-xl text-xs ${item.pass ? 'bg-slate-50 text-slate-700' : 'bg-rose-50 text-rose-800'}`;
+                div.innerHTML = `
+                    <i data-lucide="${item.pass ? 'check' : 'x'}" class="w-4 h-4 shrink-0 mt-0.5 ${item.pass ? 'text-emerald-600' : 'text-rose-600'}"></i>
+                    <span>${item.text}</span>
+                `;
+                checklistContainer.appendChild(div);
+            });
+
+            // Update Tabayyun Direct Links
+            const queryEnc = encodeURIComponent(`${title} ${author}`);
+            document.getElementById('link-scholar').href = `https://scholar.google.com/scholar?q=${queryEnc}`;
+            document.getElementById('link-crossref').href = doi ? `https://doi.org/${doi}` : `https://search.crossref.org/?q=${queryEnc}`;
+            document.getElementById('link-garuda').href = `https://garuda.kemdikbud.go.id/documents?q=${encodeURIComponent(title)}`;
+
+            lucide.createIcons();
+        }
+
+        // ==========================================
+        // QUIZ / TES ETIKA LOGIC
+        // ==========================================
+        function initQuiz() {
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            const q = quizQuestions[currentQuizIndex];
+            document.getElementById('quiz-current-idx').textContent = currentQuizIndex + 1;
+            document.getElementById('quiz-total-idx').textContent = quizQuestions.length;
+            
+            const progress = Math.round(((currentQuizIndex + 1) / quizQuestions.length) * 100);
+            document.getElementById('quiz-progress-text').textContent = `${progress}% Selesai`;
+            document.getElementById('quiz-progress-bar').style.width = `${progress}%`;
+
+            document.getElementById('quiz-category-tag').textContent = q.pillar;
+            document.getElementById('quiz-question-title').textContent = q.question;
+
+            const optionsList = document.getElementById('quiz-options-list');
+            optionsList.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const isSelected = quizAnswers[q.id] === idx;
+                const button = document.createElement('button');
+                button.className = `w-full text-left p-4 rounded-2xl border text-xs sm:text-sm font-medium transition-all duration-200 flex items-start gap-3 ${
+                    isSelected 
+                        ? 'border-emerald-600 bg-emerald-50 text-emerald-950 ring-2 ring-emerald-500/20 font-semibold' 
+                        : 'border-slate-200 bg-white text-slate-700 hover:border-emerald-400 hover:bg-slate-50'
+                }`;
+                button.onclick = () => selectQuizAnswer(q.id, idx);
+                button.innerHTML = `
+                    <div class="w-5 h-5 rounded-full border flex items-center justify-center shrink-0 mt-0.5 ${
+                        isSelected ? 'border-emerald-600 bg-emerald-600 text-white' : 'border-slate-300'
+                    }">
+                        ${isSelected ? '<i data-lucide="check" class="w-3 h-3"></i>' : ''}
+                    </div>
+                    <div class="leading-relaxed">${opt.text}</div>
+                `;
+                optionsList.appendChild(button);
+            });
+
+            // Prev button disabled on first
+            document.getElementById('quiz-prev-btn').disabled = currentQuizIndex === 0;
+            
+            // Next button text
+            const nextBtn = document.getElementById('quiz-next-btn');
+            if (currentQuizIndex === quizQuestions.length - 1) {
+                nextBtn.innerHTML = `<span>Selesai & Lihat Rapor</span> <i data-lucide="award" class="w-4 h-4"></i>`;
+            } else {
+                nextBtn.innerHTML = `<span>Selanjutnya</span> <i data-lucide="chevron-right" class="w-4 h-4"></i>`;
+            }
+
+            lucide.createIcons();
+        }
+
+        function selectQuizAnswer(qId, optIdx) {
+            quizAnswers[qId] = optIdx;
+            renderQuizQuestion();
+        }
+
+        function prevQuizQuestion() {
+            if (currentQuizIndex > 0) {
+                currentQuizIndex--;
+                renderQuizQuestion();
+            }
+        }
+
+        function nextQuizQuestion() {
+            // Check if answered
+            const currentQ = quizQuestions[currentQuizIndex];
+            if (quizAnswers[currentQ.id] === undefined) {
+                // Default to best option if user wants to fast-forward
+                quizAnswers[currentQ.id] = 1; 
+            }
+
+            if (currentQuizIndex < quizQuestions.length - 1) {
+                currentQuizIndex++;
+                renderQuizQuestion();
+            } else {
+                // Completed, compute results and navigate to report
+                calculateAndShowReport();
+                switchTab('laporan');
+            }
+        }
+
+        // ==========================================
+        // SIMULATION CASE STUDIES LOGIC
+        // ==========================================
+        let currentCaseIdx = 0;
+
+        function loadCaseStudy(index) {
+            currentCaseIdx = index;
+            // update tabs
+            document.querySelectorAll('.case-btn').forEach((btn, idx) => {
+                if (idx === index) {
+                    btn.className = "case-btn px-4 py-2.5 rounded-xl text-xs font-bold border border-emerald-800 bg-emerald-800 text-white shadow-sm transition";
+                } else {
+                    btn.className = "case-btn px-4 py-2.5 rounded-xl text-xs font-bold border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 transition";
+                }
+            });
+
+            const cs = caseStudies[index];
+            document.getElementById('case-category').textContent = cs.category;
+            document.getElementById('case-title').textContent = cs.title;
+            document.getElementById('case-narrative').textContent = cs.narrative;
+
+            const choicesContainer = document.getElementById('case-choices');
+            choicesContainer.innerHTML = '';
+
+            cs.choices.forEach((c, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-4 rounded-2xl border border-slate-200 hover:border-emerald-600 bg-slate-50 hover:bg-emerald-50/50 text-xs sm:text-sm text-slate-800 font-medium transition flex items-start gap-3 group";
+                btn.onclick = () => chooseCaseAction(index, idx);
+                btn.innerHTML = `
+                    <div class="w-6 h-6 rounded-lg bg-white border border-slate-300 group-hover:border-emerald-600 text-slate-700 font-bold flex items-center justify-center shrink-0 text-xs">
+                        ${String.fromCharCode(65 + idx)}
+                    </div>
+                    <span class="leading-relaxed">${c.text}</span>
+                `;
+                choicesContainer.appendChild(btn);
+            });
+
+            // Hide feedback initially
+            document.getElementById('case-feedback').classList.add('hidden');
+            lucide.createIcons();
+        }
+
+        function chooseCaseAction(caseIdx, choiceIdx) {
+            const cs = caseStudies[caseIdx];
+            const choice = cs.choices[choiceIdx];
+            const feedbackBox = document.getElementById('case-feedback');
+            const header = document.getElementById('feedback-header');
+            const detail = document.getElementById('feedback-detail');
+            const maqashid = document.getElementById('feedback-maqashid');
+
+            feedbackBox.classList.remove('hidden');
+
+            if (choice.isCorrect) {
+                feedbackBox.className = "p-5 rounded-2xl border border-emerald-300 bg-emerald-50/90 text-emerald-950 transition-all mt-6";
+                header.className = "flex items-center gap-2 font-bold text-sm text-emerald-900 mb-2";
+                header.innerHTML = `<i data-lucide="check-circle" class="w-5 h-5 text-emerald-600"></i> Keputusan Sangat Tepat & Beretika`;
+            } else {
+                feedbackBox.className = "p-5 rounded-2xl border border-rose-300 bg-rose-50/90 text-rose-950 transition-all mt-6";
+                header.className = "flex items-center gap-2 font-bold text-sm text-rose-900 mb-2";
+                header.innerHTML = `<i data-lucide="alert-octagon" class="w-5 h-5 text-rose-600"></i> Keputusan Rentan Pelanggaran Integritas`;
+            }
+
+            detail.textContent = choice.feedback;
+            maqashid.textContent = choice.maqashid;
+            lucide.createIcons();
+        }
+
+        // ==========================================
+        // REPORT & RADAR CHART CALCULATION
+        // ==========================================
+        function calculateAndShowReport() {
+            let totalScore = 0;
+            let aql = 80, din = 85, mal = 75, nafs = 90, nasl = 80;
+
+            quizQuestions.forEach(q => {
+                const chosenIdx = quizAnswers[q.id];
+                if (chosenIdx !== undefined) {
+                    const score = q.options[chosenIdx].score;
+                    totalScore += score;
+                    // map to specific maqashid radar pillars
+                    if (q.id === 1) aql = score;
+                    if (q.id === 2) din = score;
+                    if (q.id === 3) mal = score;
+                    if (q.id === 4) nafs = score;
+                    if (q.id === 5 || q.id === 6) nasl = (nasl + score) / 2;
+                }
+            });
+
+            const finalAvg = Math.round(totalScore / (quizQuestions.length || 1)) || 85;
+            document.getElementById('report-final-score').textContent = finalAvg;
+
+            const nameEl = document.getElementById('report-category-name');
+            const descEl = document.getElementById('report-category-desc');
+            const certStatus = document.getElementById('cert-status');
+
+            if (finalAvg >= 80) {
+                nameEl.textContent = "Peneliti Ulul Albab (Sangat Kritis & Amanah)";
+                descEl.textContent = "Alhamdulillah! Anda menerapkan prinsip Tabayyun secara konsisten, kritis terhadap nalar buatan, serta menjaga hak kekayaan intelektual sesama insan akademisi.";
+                certStatus.textContent = "Tingkat: Ulul Albab (Mumtaz)";
+                certStatus.className = "inline-block mt-1 text-xs font-bold text-emerald-200 bg-emerald-800/80 px-2 py-0.5 rounded border border-emerald-500";
+            } else if (finalAvg >= 55) {
+                nameEl.textContent = "Peneliti Waspada (Perlu Penguatan Tabayyun)";
+                descEl.textContent = "Anda memahami dasar-dasar etika, namun terkadang masih tergoda memanfaatkan AI untuk jalan pintas tanpa audit sitasi primer secara mendalam.";
+                certStatus.textContent = "Tingkat: Mutawasith (Cukup Waspada)";
+                certStatus.className = "inline-block mt-1 text-xs font-bold text-amber-200 bg-amber-800/80 px-2 py-0.5 rounded border border-amber-500";
+            } else {
+                nameEl.textContent = "Rentan Pelanggaran Integritas (Bahaya Halusinasi)";
+                descEl.textContent = "Peringatan: Ketergantungan Anda pada otomatisasi AI tanpa verifikasi berisiko memasukkan referensi palsu dan plagiasi terjemahan ke dalam karya akhir.";
+                certStatus.textContent = "Tingkat: Perlu Perbaikan Menyeluruh";
+                certStatus.className = "inline-block mt-1 text-xs font-bold text-rose-200 bg-rose-800/80 px-2 py-0.5 rounded border border-rose-500";
+            }
+
+            // Render Recommendation Matrix
+            renderRecommendations(aql, din, mal, nafs, nasl);
+
+            // Update radar chart
+            initRadarChart([aql, din, mal, nafs, nasl]);
+        }
+
+        function renderRecommendations(aql, din, mal, nafs, nasl) {
+            const list = document.getElementById('recommendation-list');
+            list.innerHTML = '';
+
+            const recs = [
+                {
+                    pillar: "Hifz al-'Aql (Akal Kritis)",
+                    score: aql,
+                    advice: aql < 70 ? "Jangan salin-tempel argumen AI. Jadikan AI hanya sebagai brainstorming partner, lalu tulis argumen dengan sudut pandang analitis Anda sendiri." : "Pertahankan ketajaman nalar dengan selalu menguji logika argumen AI terhadap realitas empiris."
+                },
+                {
+                    pillar: "Hifz al-Din (Amanah Sitasi)",
+                    score: din,
+                    advice: din < 70 ? "Waspadai referensi fiktif! Lakukan Tabayyun dengan mencari DOI artikel pada portal resmi seperti Crossref atau Garuda Kemdikbud." : "Sikap amanah ilmiah Anda sangat baik. Terus sebarkan budaya verifikasi sitasi kepada rekan mahasiswa."
+                },
+                {
+                    pillar: "Hifz al-Mal (Hak Cipta)",
+                    score: mal,
+                    advice: "Selalu sertakan sitasi primer peneliti asli meskipun Anda membaca intisarinya dari rangkuman kecerdasan buatan."
+                },
+                {
+                    pillar: "Hifz an-Nafs & Nasl (Keberlanjutan)",
+                    score: Math.round((nafs + nasl) / 2),
+                    advice: "Cantumkan deklarasi transparansi penggunaan AI dalam pengantar skripsi demi mewariskan ekosistem ilmu yang jujur bagi generasi peneliti selanjutnya."
+                }
+            ];
+
+            recs.forEach(r => {
+                const item = document.createElement('div');
+                item.className = "p-3.5 rounded-xl border border-slate-200 bg-slate-50 flex items-start gap-3";
+                item.innerHTML = `
+                    <div class="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center shrink-0 text-xs">
+                        ${r.score}%
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-800">${r.pillar}</h4>
+                        <p class="text-xs text-slate-600 mt-0.5 leading-relaxed">${r.advice}</p>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function initRadarChart(scores) {
+            const ctx = document.getElementById('maqashidRadarChart');
+            if (!ctx) return;
+
+            if (radarChartInstance) {
+                radarChartInstance.destroy();
+            }
+
+            radarChartInstance = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Hifz al-Aql', 'Hifz al-Din', 'Hifz al-Mal', 'Hifz an-Nafs', 'Hifz an-Nasl'],
+                    datasets: [{
+                        label: 'Skor Etika Maqashid',
+                        data: scores,
+                        fill: true,
+                        backgroundColor: 'rgba(5, 150, 105, 0.25)',
+                        borderColor: '#059669',
+                        pointBackgroundColor: '#d97706',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#d97706'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    scales: {
+                        r: {
+                            angleLines: { color: '#e2e8f0' },
+                            grid: { color: '#f1f5f9' },
+                            suggestedMin: 0,
+                            suggestedMax: 100,
+                            ticks: { display: false, stepSize: 20 },
+                            pointLabels: {
+                                font: { size: 10, family: 'Plus Jakarta Sans', weight: '600' },
+                                color: '#1e293b'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
